@@ -1,1 +1,1 @@
-web: uvicorn techzapi:app --reload
+web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker techzapi:app
