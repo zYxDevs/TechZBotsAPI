@@ -12,7 +12,7 @@ async def read_root():
     return {"TechZBots": "Api working fine..."}
 
 
-@app.get("/wall/?search={query}")
+@app.get("/wall/{query}")
 async def read_item(query):
     data = get_unsplash(query)
 
