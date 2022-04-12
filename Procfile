@@ -1,0 +1,1 @@
+web: uvicorn techzapi:app --reload
