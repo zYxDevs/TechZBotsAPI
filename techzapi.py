@@ -19,4 +19,4 @@ async def read_item(query):
     if str(type(data)) == "<class 'str'>":
         return {"success": "False", "error": f"{data}"}
 
-    return {"success": "True", "images": f"{data}"}
+    return {"success": "True", "images": data}
