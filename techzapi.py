@@ -14,7 +14,7 @@ async def read_root():
 
 @app.get("/wall/{query}")
 async def read_item(query):
-    data = get_unsplash(query)
+    data = await get_unsplash(query)
 
     if str(type(data)) == "<class 'str'>":
         return {"success": "False", "error": f"{data}"}
