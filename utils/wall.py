@@ -2,13 +2,11 @@ import random
 import aiohttp 
 from bs4 import BeautifulSoup as bs
 
-session = aiohttp.ClientSession()
-
 async def search_wall(query):
     try:
         url = "https://wall.alphacoders.com/search.php?search=" + query.replace(' ','+')
         
-        async with session:
+        async with aiohttp.ClientSession() as session:
             async with session.get(url) as resp:
                 soup =bs(await resp.text(),"html.parser")
                 images = soup.find_all("img","big-thumb")

@@ -2,13 +2,11 @@ import random
 from bs4 import BeautifulSoup as bs
 import aiohttp
 
-session = aiohttp.ClientSession()
-
 async def search_unsplash(query):
     try:
         link = "https://unsplash.com/s/photos/" + query.replace(" ","-")    
         
-        async with session:
+        async with aiohttp.ClientSession() as session:
             async with session.get(link) as resp:
                 soup =bs(await resp.text(),"html.parser")
                 div = soup.find_all("div", class_="mef9R")
