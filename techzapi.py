@@ -1,20 +1,28 @@
 from fastapi import FastAPI
-
-# modules
-
-from modules.unsplash import get_unsplash
+from utils import search_unsplash, search_wall
+import aiohttp
 
 app = FastAPI()
 
+session = aiohttp.ClientSession()
 
 @app.get("/")
 async def read_root():
-    return {"TechZBots": "Api working fine..."}
+    return {"status": "TechZBots - Api working fine..."}
 
 
 @app.get("/wall/{query}")
 async def read_item(query):
-    data = await get_unsplash(query)
+    data = await search_wall(query)
+
+    if str(type(data)) == "<class 'str'>":
+        return {"success": "False", "error": f"{data}"}
+
+    return {"success": "True", "images": data}
+
+@app.get("/unsplash/{query}")
+async def read_item(query):
+    data = await search_unsplash(query)
 
     if str(type(data)) == "<class 'str'>":
         return {"success": "False", "error": f"{data}"}
