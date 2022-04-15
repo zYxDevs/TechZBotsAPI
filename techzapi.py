@@ -1,10 +1,7 @@
 from fastapi import FastAPI
 from utils import search_unsplash, search_wall
-import aiohttp
 
 app = FastAPI()
-
-session = aiohttp.ClientSession()
 
 @app.get("/")
 async def read_root():

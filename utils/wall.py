@@ -1,7 +1,8 @@
 import random
 import aiohttp 
 from bs4 import BeautifulSoup as bs
-from techzapi import session
+
+session = aiohttp.ClientSession()
 
 async def search_wall(query):
     try:

@@ -1,7 +1,8 @@
 import random
 from bs4 import BeautifulSoup as bs
 import aiohttp
-from techzapi import session
+
+session = aiohttp.ClientSession()
 
 async def search_unsplash(query):
     try:
