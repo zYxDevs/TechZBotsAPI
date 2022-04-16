@@ -28,4 +28,4 @@ async def search_wall(query):
         random.shuffle(final_list)
         return final_list
     except Exception as e:
-        return str(e)
+        return "error " + str(e)

@@ -20,4 +20,4 @@ async def search_unsplash(query):
         random.shuffle(images)
         return images
     except Exception as e:
-        return str(e)
+        return "error " + str(e)

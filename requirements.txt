@@ -3,3 +3,5 @@ gunicorn
 uvicorn
 aiohttp
 bs4
+pillow
+telegraph
