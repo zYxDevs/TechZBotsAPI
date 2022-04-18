@@ -1,16 +1,10 @@
-import aiohttp
+import wget
 from telegraph import upload_file as uf
 
 async def download(url):
     try:
-        x = url.split('/')
-        file = x[-1]
-
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url) as resp:
-                open(file,"wb").write(resp.content)
-
-        return file
+        filename = wget.download(url,out="temp")
+        return filename
     except Exception as e:
         return "error " + str(e)
 
