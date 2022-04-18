@@ -34,7 +34,7 @@ async def read_item(text):
     text = text.replace("%20"," ").upper().strip()
     data = await generate_logo(text)
 
-    if not "error" in str(data):
+    if "error" in str(data):
         error = data.replace("error",'').strip()
         return {"success": "False", "error": f"{error}"}
 
