@@ -1,6 +1,6 @@
 import os
 from fastapi import FastAPI
-from utils import search_unsplash, search_wall, telegraph, generate_logo
+from utils import search_unsplash, search_wall, telegraph, generate_logo, get_nyaa_info
 from fastapi.responses import RedirectResponse, FileResponse
 
 app = FastAPI()
@@ -50,7 +50,8 @@ async def read_item(text: str):
 
 
 @app.get("/nyaa")
-async def get_nyaa(code: int = Query(None)):
-  x = await get_torrent(code)
+async def get_nyaa(code: int):
+  "Get info from nyaasi
+  x = await get_nyaa_info(code)
   code = x
   return code
