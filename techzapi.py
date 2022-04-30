@@ -1,4 +1,4 @@
-import os, json
+import os
 from fastapi import FastAPI
 from utils import search_unsplash, search_wall, telegraph, generate_logo, get_nyaa_info
 from fastapi.responses import RedirectResponse, FileResponse
@@ -18,7 +18,7 @@ async def read_item(query: str):
     if str(type(data)) == "<class 'str'>":
         return {"success": "False", "error": f"{data}"}
 
-    return json.dumps({"success": "True", "images": data}, indent=4)
+    return {"success": "True", "images": data}
 
 @app.get("/unsplash")
 async def read_item(query: str):
@@ -26,9 +26,9 @@ async def read_item(query: str):
     data = await search_unsplash(query)
 
     if str(type(data)) == "<class 'str'>":
-        return json.dumps({"success": "False", "error": f"{data}"}, indent=4)
+        return {"success": "False", "error": f"{data}"}
 
-    return json.dumps({"success": "True", "images": data}, indent=4)
+    return {"success": "True", "images": data}
 
 @app.get("/logo")
 async def read_item(text: str):
@@ -38,7 +38,7 @@ async def read_item(text: str):
 
     if "error" in str(data):
         error = data.replace("error",'').strip()
-        return json.dumps({"success": "False", "error": f"{error}"}, indent=4)
+        return {"success": "False", "error": f"{error}"}
 
     file_size = int(os.path.getsize(data))
 
@@ -46,7 +46,7 @@ async def read_item(text: str):
         telegraph_link = await telegraph(data,text)
         if "error" in str(data):
             error = data.replace("error",'').strip()
-            return json.dumps({"success": "False", "error": f"{error}"}, indent=4)
+            return {"success": "False", "error": f"{error}"}
         return RedirectResponse(telegraph_link)
 
     return FileResponse(data)
@@ -56,4 +56,4 @@ async def read_item(text: str):
 async def get_nyaa(code: int):
   "Get info from nyaa using code"
   x = await get_nyaa_info(code)
-  return json.dumps(x, indent=4)
+  return x
