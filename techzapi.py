@@ -51,7 +51,7 @@ async def read_item(text: str):
 
 @app.get("/nyaa")
 async def get_nyaa(code: int):
-  "Get info from nyaasi
+  "Get info from nyaa"
   x = await get_nyaa_info(code)
   code = x
   return code
