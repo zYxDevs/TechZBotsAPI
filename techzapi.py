@@ -1,6 +1,6 @@
 import os
 from utils.logo import generate_logo
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from utils import search_unsplash, search_wall, telegraph
 from fastapi.responses import RedirectResponse, FileResponse
 
@@ -11,8 +11,8 @@ async def read_root():
     return {"status": "TechZBots - Api working fine..."}
 
 
-@app.get("/wall/{query}")
-async def read_item(query):
+@app.get("/wall")
+async def read_item(query: str= Query(None)):
     data = await search_wall(query)
 
     if str(type(data)) == "<class 'str'>":
@@ -20,8 +20,8 @@ async def read_item(query):
 
     return {"success": "True", "images": data}
 
-@app.get("/unsplash/{query}")
-async def read_item(query):
+@app.get("/unsplash")
+async def read_item(query: str = Query(None)):
     data = await search_unsplash(query)
 
     if str(type(data)) == "<class 'str'>":
@@ -29,8 +29,8 @@ async def read_item(query):
 
     return {"success": "True", "images": data}
 
-@app.get("/logo/{text}")
-async def read_item(text):
+@app.get("/logo")
+async def read_item(text: str = Query(None)):
     text = text.replace("%20"," ").upper().strip()
     data = await generate_logo(text)
 
