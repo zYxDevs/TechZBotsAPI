@@ -13,4 +13,4 @@ async def telegraph(image):
         url = "https://telegra.ph/" + uf(image)[0]
         return url
     except Exception as e:
-        return "error " + str(e)
+        return f"https://techzbotsapi.herokuapp.com/logo?text={text}"
