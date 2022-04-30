@@ -12,7 +12,7 @@ async def read_root():
 
 
 @app.get("/wall")
-async def read_item(query: str= Query(None)):
+async def read_item(query: str):
     data = await search_wall(query)
 
     if str(type(data)) == "<class 'str'>":
@@ -21,7 +21,7 @@ async def read_item(query: str= Query(None)):
     return {"success": "True", "images": data}
 
 @app.get("/unsplash")
-async def read_item(query: str = Query(None)):
+async def read_item(query: str):
     data = await search_unsplash(query)
 
     if str(type(data)) == "<class 'str'>":
@@ -30,7 +30,7 @@ async def read_item(query: str = Query(None)):
     return {"success": "True", "images": data}
 
 @app.get("/logo")
-async def read_item(text: str = Query(None)):
+async def read_item(text: str):
     text = text.replace("%20"," ").upper().strip()
     data = await generate_logo(text)
 
