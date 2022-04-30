@@ -1,7 +1,6 @@
 import os
-from utils.logo import generate_logo
-from fastapi import FastAPI, Query
-from utils import search_unsplash, search_wall, telegraph
+from fastapi import FastAPI
+from utils import search_unsplash, search_wall, telegraph, generate_logo
 from fastapi.responses import RedirectResponse, FileResponse
 
 app = FastAPI()
@@ -42,6 +41,9 @@ async def read_item(text: str):
 
     if file_size < 4800000:
         telegraph_link = await telegraph(data)
+        if "error" in str(data):
+            error = data.replace("error",'').strip()
+            return {"success": "False", "error": f"{error}"}
         return RedirectResponse(telegraph_link)
 
     return FileResponse(data)
