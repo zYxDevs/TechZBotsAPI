@@ -40,7 +40,7 @@ async def read_item(text: str):
     file_size = int(os.path.getsize(data))
 
     if file_size < 4800000:
-        telegraph_link = await telegraph(data)
+        telegraph_link = await telegraph(data,text)
         if "error" in str(data):
             error = data.replace("error",'').strip()
             return {"success": "False", "error": f"{error}"}
