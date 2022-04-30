@@ -2,7 +2,7 @@ import aiohttp
 from bs4 import BeautifulSoup as bs
 
 
-async def get_torrent(code): 
+async def get_nyaa_info(code): 
   try:
     r = aiohttp.ClientSession()
     x = await r.get(f"https://nyaa.si/view/{code}")
@@ -36,13 +36,13 @@ async def get_torrent(code):
       except:
         pass
     graph = {}
-    graph['status'] = "success"
+    graph['success] = "True"
     for a in inf:
       graph[f'{a[0]}'] = a[1]
     graph['magnet'] = link 
     return graph
   except Exception:
     return {
-             "status": "fail",
-             "message": Exception
+             "success": "False",
+             "message": str(Exception)
       }
