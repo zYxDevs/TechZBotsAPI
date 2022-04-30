@@ -47,3 +47,10 @@ async def read_item(text: str):
         return RedirectResponse(telegraph_link)
 
     return FileResponse(data)
+
+
+@app.get("/nyaa")
+async def get_nyaa(code: int = Query(None)):
+  x = await get_torrent(code)
+  code = x
+  return code
