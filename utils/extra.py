@@ -10,7 +10,7 @@ async def download(url):
 
 async def telegraph(image):
     try:
-        url = "https://telegra.ph/" + uf(image)
+        url = "https://telegra.ph/" + uf(image)[0]
         return url
     except Exception as e:
         return "error " + str(e)
