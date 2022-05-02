@@ -1,4 +1,6 @@
+import asyncio
 import os
+from typing import Optional
 from fastapi import FastAPI
 from utils import search_unsplash, search_wall, telegraph, generate_logo, get_nyaa_info
 from fastapi.responses import RedirectResponse, FileResponse
@@ -6,12 +8,12 @@ from fastapi.responses import RedirectResponse, FileResponse
 app = FastAPI()
 
 @app.get("/")
-async def read_root():
+async def home():
     return {"status": "TechZBots - Api working fine..."}
 
 
 @app.get("/wall")
-async def read_item(query: str):
+async def get_wall(query: str):
     "Get direct links of wallpapers"
     data = await search_wall(query)
 
@@ -21,7 +23,7 @@ async def read_item(query: str):
     return {"success": "True", "images": data}
 
 @app.get("/unsplash")
-async def read_item(query: str):
+async def get_unsplash(query: str):
     "Get direct links of images from unsplash"
     data = await search_unsplash(query)
 
@@ -31,10 +33,11 @@ async def read_item(query: str):
     return {"success": "True", "images": data}
 
 @app.get("/logo")
-async def read_item(text: str):
+async def make_logo(text: str, square: Optional[bool] = None):
     "Generate a random logo"
-    text = text.replace("%20"," ").upper().strip()
-    data = await generate_logo(text)
+    text = text.replace("%20"," ").replace("+"," ").replace("_"," ").upper().strip()
+    
+    data = await generate_logo(text,str(square))
 
     if "error" in str(data):
         error = data.replace("error",'').strip()
@@ -54,6 +57,6 @@ async def read_item(text: str):
 
 @app.get("/nyaa")
 async def get_nyaa(code: int):
-  "Get info from nyaa using code"
-  x = await get_nyaa_info(code)
-  return x
+    "Get info from nyaa using code"
+    x = await get_nyaa_info(code)
+    return x
