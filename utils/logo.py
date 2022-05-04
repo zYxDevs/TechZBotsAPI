@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 from typing import Optional
 
 # colors = [(255, 170, 51), (220, 20, 60), (255, 215, 0), (52, 52, 52), (48, 25, 52), (191, 64, 191), (31, 81, 255), (255, 191, 0), (210, 4, 45), (224, 17, 95), (53, 57, 53), (54, 69, 79), (0, 150, 255), (128, 0, 128), (0, 255, 255), (0, 0, 0), (218, 112, 214), (93, 63, 211), (255, 0, 255), (127, 0, 255), (2, 48, 32), (25, 25, 112), (50, 205, 50), (255, 165, 0), (124, 252, 0), (40, 40, 43), (80, 200, 120), (255, 234, 0), (255, 105, 180), (255, 68, 51), (255, 127, 80), (93, 63, 211), (50, 205, 50), (124, 252, 0), (255, 36, 0), (238, 75, 43), (215, 0, 64), (255, 172, 28), (27, 18, 18), (255, 0, 0)]
-search = ["blur background", "background", "neon lights", "wallpaper", "asthetic", "anime", "abstract", "dark"]
+search = ["blur background", "background", "neon lights", "wallpaper", "asthetic", "anime", "abstract", "dark", "shape", "pattern", "gradient", "colorful", "nature"]
  
 async def get_image():
     try:
