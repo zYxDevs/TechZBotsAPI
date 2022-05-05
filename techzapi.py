@@ -2,7 +2,7 @@ import asyncio
 import os
 from typing import Optional
 from fastapi import FastAPI
-from utils import search_unsplash, search_wall, telegraph, generate_logo, get_nyaa_info
+from utils import *
 from fastapi.responses import RedirectResponse, FileResponse
 
 app = FastAPI()
