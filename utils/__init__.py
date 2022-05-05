@@ -5,6 +5,8 @@ from utils.extra import *
 from utils.logo import *
 from utils.nyaa import *
 """
+import glob
+from os.path import basename, dirname, isfile 
 
 mod_paths = glob.glob(dirname(__file__) + "/*.py")
 
