@@ -60,3 +60,13 @@ async def get_nyaa(code: int):
     "Get info from nyaa using code"
     x = await get_nyaa_info(code)
     return x
+
+@app.get("/ud")
+async def get_ud(word: str):
+    "Get Meaning from urban dictionary"
+    x = await ud(word)
+    z = {}
+    z['status'] = 'success'
+    z['word'] = word
+    z['result'] = x
+    return z
