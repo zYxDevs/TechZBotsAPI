@@ -7,23 +7,32 @@ async def ud(word):
    r = await requests.get(f"http://api.urbandictionary.com/v0/define?term={word}")
    r = await r.json()
    await requests.close()
-   z = []
-   for x in r['list']:
-     z.append([x["thumbs_up"] - x["thumbs_down"], [x]])
+   results = []
+   for defin in r['list']:
+     results.append([defin["thumbs_up"] - defin["thumbs_down"], defin])
    
-   hm = []
-   for x in z:
-     for a in z:
-       if x[0] >= a[0]:
-         z.remove(a)
+   resp = []
+
+
+   for result in results:
+     for res in results:
+       if result[0] >= res[0]:
+         results.remove(res)
        else:
          pass
    
-   for a in z:
-     a = a[1][0]
-     at = {}
-     at['definition'] = a['definition']
-     at['example'] = a['example']
-     hm.append(at)
+   for result in results:
+     for res in results:
+       if result[0] >= res[0]:
+         results.remove(res)
+       else:
+         pass
+   
+   for result in results:
+     result = result[1]
+     res = {}
+     res['definition'] = result['definition']
+     res['example'] = result['example']
+     resp.append(res)
 
-   return hm
+   return resp
