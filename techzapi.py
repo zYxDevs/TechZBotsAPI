@@ -73,7 +73,7 @@ async def get_ud(word: str, max: Optional[int] = None):
       z['error'] = 'Word Not Found'
       
     z['word'] = word
-    if x:
-      x = x[:x]
+    if max:
+      x = x[:max]
     z['results'] = x
     return z
