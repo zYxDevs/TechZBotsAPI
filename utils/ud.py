@@ -6,6 +6,7 @@ async def ud(word):
    
    r = await requests.get(f"http://api.urbandictionary.com/v0/define?term={word}")
    r = await r.json()
+   await requests.close()
    z = []
    for x in r['list']:
      z.append([x["thumbs_up"] - x["thumbs_down"], [x]])
