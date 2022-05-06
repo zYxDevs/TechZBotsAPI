@@ -62,7 +62,7 @@ async def get_nyaa(code: int):
     return x
 
 @app.get("/ud")
-async def get_ud(word: str, max: Optional[int] = None)):
+async def get_ud(word: str, max: Optional[int] = None):
     "Get meaning of a word from urban dictionary"
     x = await get_urbandict(word)
     z = {}
