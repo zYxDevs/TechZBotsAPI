@@ -9,27 +9,22 @@ async def ud(word):
    await requests.close()
    results = []
    for defin in r['list']:
-     results.append([defin["thumbs_up"] - defin["thumbs_down"], defin])
+     results.append([defin["thumbs_up"] - defin["thumbs_down"]])
    
    resp = []
 
 
-   for result in results:
-     for res in results:
-       if result[0] >= res[0]:
-         results.remove(res)
-       else:
-         pass
+   results.sort()
+   results.reverse()
+
+   res = []
+   for result in r:
+     if (result['thumbs_up'] - result['thumbs_down']) == results[0][0]:
+       res.append(result)
+     else:
+       pass
    
-   for result in results:
-     for res in results:
-       if result[0] >= res[0]:
-         results.remove(res)
-       else:
-         pass
-   
-   for result in results:
-     result = result[1]
+   for result in res:
      res = {}
      res['definition'] = result['definition']
      res['example'] = result['example']
