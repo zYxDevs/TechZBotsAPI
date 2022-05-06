@@ -62,11 +62,18 @@ async def get_nyaa(code: int):
     return x
 
 @app.get("/ud")
-async def get_ud(word: str):
-    "Get Meaning from urban dictionary"
-    x = await ud(word)
+async def get_ud(word: str, max: Optional[int] = None)):
+    "Get meaning of a word from urban dictionary"
+    x = await get_urbandict(word)
     z = {}
-    z['status'] = 'success'
+    if len(x) > 0:
+      z['success'] = 'True'
+    else:
+      z['success'] = 'False'
+      z['error'] = 'Word Not Found'
+      
     z['word'] = word
-    z['result'] = x
+    if x:
+      x = x[:x]
+    z['results'] = x
     return z

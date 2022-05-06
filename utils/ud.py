@@ -1,27 +1,29 @@
 import aiohttp
 
-
-async def ud(word):
-    requests = aiohttp.ClientSession()
-    r = await requests.get(f"http://api.urbandictionary.com/v0/define?term={word}")
-    r = await r.json()
-    await requests.close()
-    z = []
-    for x in r['list']:
-        z.append([x["thumbs_up"] - x["thumbs_down"]])
-    z.sort()
-    z.reverse()
-    fuck = []
-    for x in r['list']:
-        if (x["thumbs_up"] - x["thumbs_down"]) == z[0][0]:
-            fuck.append(x)
-
-    resp = []
-    for result in fuck:
-        re = {}
-        re['definition'] = result['definition']
-        re['example'] = result['example']
-        resp.append(re)
-
-    return resp
-
+async def get_urbandict(word):
+  async with aiohttp.ClientSession() as session: 
+    async with session.get(f"http://api.urbandictionary.com/v0/define?term={word}") as resp:
+      r = await r.json() 
+  
+  z = [] 
+  for x in r['list']:
+    a ={}
+    a["count"] = x["thumbs_up"] - x["thumbs_down"]
+    a["data"] = x
+    z.append(a)
+  
+  def hhh(e):
+    return e["count"]
+  
+  z.sort(key=hhh)
+  z.reverse()
+  
+  results = []
+  
+  for i in z:
+    ndict = {}
+    ndict["definition"] = i["data"]["definition"]
+    ndict["example"] = i["data"]["example"]
+    results.append(ndict)
+  
+  return results
