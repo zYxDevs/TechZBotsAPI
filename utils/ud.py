@@ -2,7 +2,7 @@ import aiohttp
 
 async def get_urbandict(word):
   async with aiohttp.ClientSession() as session: 
-    async with session.get(f"http://api.urbandictionary.com/v0/define?term={word}") as resp:
+    async with session.get(f"http://api.urbandictionary.com/v0/define?term={word}") as r:
       r = await r.json() 
   
   z = [] 
