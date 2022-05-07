@@ -4,3 +4,4 @@ from utils.extra import *
 from utils.logo import *
 from utils.nyaa import *
 from utils.ud import *
+from utils.torrent import *

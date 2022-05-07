@@ -77,3 +77,18 @@ async def get_ud(word: str, max: Optional[int] = None):
       x = x[:max]
     z['results'] = x
     return z
+
+@app.get("/torrent")
+async def torrent(query: str, max: Optional[int] = None):
+  "Get Torrent currently only yts supported"
+  x = await yts(query)
+  res = {}
+  if x:
+    res['success'] = True
+    res['query'] = query
+    res['results'] = x
+  else:
+    res['success'] = False
+    res['error'] = 'Results Not Found'
+
+  return res
