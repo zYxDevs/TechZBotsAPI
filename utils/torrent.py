@@ -65,7 +65,11 @@ async def yts(query):
     
       # adding magnets to thier respective dicts
     
-        links.append({"name": nam, "magnets": magnets})
+        l = {"name": nam, "magnets": magnets}
+        if l in links:
+          pass
+        else:
+          links.append(l)
     
     #closing aiohttp connection
   
