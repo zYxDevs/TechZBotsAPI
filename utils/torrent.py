@@ -72,7 +72,7 @@ async def yts(query):
   
     await requests.close()
  
-    return {a for a in links}
+    return links
     
   except:
     
