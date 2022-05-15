@@ -37,6 +37,7 @@ async def get_nyaa_info(code):
         pass
     graph = {}
     graph['success'] = "True"
+    graph['title'] = title
     for a in inf:
       graph[f'{a[0]}'] = a[1]
     graph['magnet'] = link 
