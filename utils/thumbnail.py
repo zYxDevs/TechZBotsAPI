@@ -31,9 +31,9 @@ def truncate(text):
     text1 = ""
     text2 = ""    
     for i in list:
-        if len(text1) + len(i) < 35:        
+        if len(text1) + len(i) < 30:        
             text1 += " " + i
-        elif len(text2) + len(i) < 35:       
+        elif len(text2) + len(i) < 30:       
             text2 += " " + i
 
     text1 = text1.strip()
