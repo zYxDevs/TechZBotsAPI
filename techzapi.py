@@ -116,3 +116,4 @@ async def generate_thumbnail(videoid: str, botname: Optional[str] = None):
     thumb = await gen_thumb(videoid,botname)
 
     return RedirectResponse(thumb)
+    
