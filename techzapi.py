@@ -84,11 +84,22 @@ async def torrent(query: str, max: Optional[int] = None):
   x = await yts(query)
   res = {}
   if x:
-    res['success'] = True
+    res['success'] = 'True'
     res['query'] = query
     res['results'] = x
   else:
-    res['success'] = False
+    res['success'] = 'False'
     res['error'] = 'Results Not Found'
 
   return res
+
+@app.get("/lyrics")
+async def search_lyrics(query: str):
+    "Search lyrics"
+    lyrics = await get_lyrics(query)
+
+    data = {}
+
+    data["success"] = 'True'
+    data["success"] = lyrics
+    return data
