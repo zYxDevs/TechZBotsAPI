@@ -151,4 +151,4 @@ async def gen_thumb(videoid,bot_name):
 
             return telegraph_link
     except:
-        return f"http://img.youtube.com/vi/{videoid}/maxresdefault.jpg"
+        return f"https://techzbotsapi.herokuapp.com/thumb?videoid={videoid}"
