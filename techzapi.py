@@ -58,17 +58,12 @@ async def make_logo(text: str, square: Optional[bool] = None):
 
 
 @app.get("/nyaa")
-async def get_nyaa(code: Optional[int] = None, latest: Optional[bool] = False):
+async def get_nyaa(code):
     "Get info from nyaa using code"
-    if latest:
-        x = await get_nyaa_latest()
+    if code == "latest":
+        x = await get_nyaa_info(latest=True)
     else:
-        if code:
-            x = await get_nyaa_info(code)
-         else:
-            x = {}
-            x['success'] = False
-            x['error'] = 'No Code Provided'
+        x = await get_nyaa_info(code=code, latest=False)
     return x
 
 @app.get("/ud")
