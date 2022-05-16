@@ -60,11 +60,18 @@ async def make_logo(text: str, square: Optional[bool] = None):
 @app.get("/nyaa")
 async def get_nyaa(code):
     "Get info from nyaa using code"
-    if code == "latest":
+    try:
+      if code == "latest":
         x = await get_nyaa_info(latest=True)
-    else:
-        x = await get_nyaa_info(code=code, latest=False)
-    return x
+      else:
+        x = await get_nyaa_info(code=code)
+      return x
+    except Exception as e:
+      x = {
+             "success": "False",
+             "message": str(e)
+      }
+      return x
 
 @app.get("/ud")
 async def get_ud(word: str, max: Optional[int] = None):
