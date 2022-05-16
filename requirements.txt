@@ -9,3 +9,4 @@ wget
 lyricsgenius
 youtube-search-python
 aiofiles
+numpy
