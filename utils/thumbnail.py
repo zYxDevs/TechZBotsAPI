@@ -1,6 +1,6 @@
+import asyncio
 import os
 import re
-import textwrap
 from utils import telegraph_simple
 
 import aiofiles
@@ -83,11 +83,10 @@ async def gen_thumb(videoid,bot_name):
         y2 = Ycenter + 250
         logo = youtube.crop((x1, y1, x2, y2))
         logo.thumbnail((520, 520), Image.ANTIALIAS)
-
-        black = Image.open("resources/images/black.jpg")
+                                                                                        
         circle = Image.open("resources/images/circle.png")
 
-        image3 = logo
+        image3 = image1.crop((280,0,1000,720))
         lum_img = Image.new('L', [720,720] , 0)
         draw = ImageDraw.Draw(lum_img)
         draw.pieslice([(0,0), (720,720)], 0, 360, fill = 255, outline = "white")
@@ -129,5 +128,6 @@ async def gen_thumb(videoid,bot_name):
         telegraph_link = await telegraph_simple(file)
 
         return telegraph_link
-    except Exception:
+    except Exception as e:
+        print(e)
         return "https://telegra.ph/file/e17f42bc195635b668d6d.jpg"
