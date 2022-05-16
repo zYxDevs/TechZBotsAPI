@@ -10,3 +10,4 @@ lyricsgenius
 youtube-search-python
 aiofiles
 numpy
+feedparser
