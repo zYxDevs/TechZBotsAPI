@@ -1,4 +1,4 @@
-import aiohttp
+import aiohttp, feedparser
 from bs4 import BeautifulSoup as bs
 
 
@@ -47,3 +47,32 @@ async def get_nyaa_info(code):
              "success": "False",
              "message": str(Exception)
       }
+
+  
+
+async def get_nyaa_latest():
+  api_url = 'https://techzbotsapi.herokuapp.com'
+  x = feedparser.parse("https://nyaa.si/?page=rss")
+  x = x.entries[0]
+  dic = {}
+  
+  
+  code = str(x['link'])
+  code = code.split('/')[-1]
+  code = code.split('.')[0]
+  requests = aiohttps.ClientSession()
+  resp = await requests.get(f'{api_url}/nyaa?code={code}')
+  magnet = await resp.json()
+  magnet = magnet['magnet']
+  await requests.close()
+  
+  dic['success'] = true
+  dic['title'] = x['title']
+  dic['magnet'] = magnet
+  dic['seeders'] = x['nyaa_seeders']
+  dic['leechers'] = x['nyaa_leechers']
+  dic['downloads'] = x['nyaa_downloads']
+  dic['infohash'] = x['nyaa_infohash']
+  dic['category'] = x['nyaa_category']
+  dic['size'] = x['nyaa_size']
+  return dic
