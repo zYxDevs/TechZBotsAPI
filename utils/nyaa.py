@@ -1,8 +1,8 @@
-import aiohttp, feedparser
+import requests, feedparser
 from bs4 import BeautifulSoup as bs
 
 
-async def get_nyaa_info(code): 
+async def get_nya(code): 
   try:
     r = aiohttp.ClientSession()
     x = await r.get(f"https://nyaa.si/view/{code}")
@@ -51,21 +51,14 @@ async def get_nyaa_info(code):
   
 
 async def get_nyaa_latest():
-  api_url = 'https://techzbotsapi.herokuapp.com'
   x = feedparser.parse("https://nyaa.si/?page=rss")
   x = x.entries[0]
   dic = {}
-  
-  
   code = str(x['link'])
   code = code.split('/')[-1]
   code = code.split('.')[0]
-  requests = aiohttps.ClientSession()
-  resp = await requests.get(f'{api_url}/nyaa?code={code}')
-  magnet = await resp.json()
+  magnet = await get_nya(code)
   magnet = magnet['magnet']
-  await requests.close()
-  
   dic['success'] = true
   dic['title'] = x['title']
   dic['magnet'] = magnet
@@ -76,3 +69,16 @@ async def get_nyaa_latest():
   dic['category'] = x['nyaa_category']
   dic['size'] = x['nyaa_size']
   return dic
+
+async def get_nyaa_info(code=None,latest=None):
+  if latest:
+    r = await get_nyaa_latest()
+  else:
+    if code:
+      r = await get_nya(code)
+    else:
+      r = {
+             "success": "False",
+             "message": "No Code Provided"
+      }
+  return r
