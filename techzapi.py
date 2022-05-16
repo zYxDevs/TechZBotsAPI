@@ -101,5 +101,6 @@ async def search_lyrics(query: str):
     data = {}
 
     data["success"] = 'True'
-    data["success"] = lyrics
+    data["query"] = query
+    data["lyrics"] = lyrics
     return data
