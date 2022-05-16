@@ -1,14 +1,22 @@
 import asyncio
 import os
+import random
 import re
 from utils import telegraph_simple
-
 import aiofiles
 import aiohttp
 from PIL import (Image, ImageDraw, ImageEnhance, ImageFilter,
                  ImageFont, ImageOps)
 from youtubesearchpython.__future__ import VideosSearch
 import numpy as np
+
+def make_col():
+    return (random.randint(0,255),random.randint(0,255),random.randint(0,255))
+
+def remove_non_ascii(text):
+    new_val = text.encode("ascii", "ignore")
+    updated_str = new_val.decode()
+    return updated_str
 
 def changeImageSize(maxWidth, maxHeight, image):
     widthRatio = maxWidth / image.size[0]
@@ -23,9 +31,9 @@ def truncate(text):
     text1 = ""
     text2 = ""    
     for i in list:
-        if len(text1) + len(i) < 24:        
+        if len(text1) + len(i) < 35:        
             text1 += " " + i
-        elif len(text2) + len(i) < 24:        
+        elif len(text2) + len(i) < 35:       
             text2 += " " + i
 
     text1 = text1.strip()
@@ -33,101 +41,114 @@ def truncate(text):
     return [text1,text2]
 
 async def gen_thumb(videoid,bot_name):
-    if os.path.isfile(f"cache/{videoid}.png"):
-        return f"cache/{videoid}.png"
-
-    url = f"https://www.youtube.com/watch?v={videoid}"
     try:
-        results = VideosSearch(url, limit=1)
-        for result in (await results.next())["result"]:
-            try:
-                title = result["title"]
-                title = re.sub("\W+", " ", title)
-                title = title.title()
-            except:
-                title = "Unsupported Title"
-            try:
-                duration = result["duration"]
-            except:
-                duration = "Unknown Mins"
-            thumbnail = result["thumbnails"][0]["url"].split("?")[0]
-            try:
-                views = result["viewCount"]["short"]
-            except:
-                views = "Unknown Views"
-            try:
-                channel = result["channel"]["name"]
-            except:
-                channel = "Unknown Channel"
+        if os.path.isfile(f"temp_files/{videoid}.jpg"):
+            os.remove(f"temp_files/{videoid}.jpg")
 
-        async with aiohttp.ClientSession() as session:
-            async with session.get(thumbnail) as resp:
-                if resp.status == 200:
-                    f = await aiofiles.open(
-                        f"cache/thumb{videoid}.png", mode="wb"
-                    )
-                    await f.write(await resp.read())
-                    await f.close()
+        url = f"https://www.youtube.com/watch?v={videoid}"
+        if 1==1:
+            results = VideosSearch(url, limit=1)
+            for result in (await results.next())["result"]:
+                try:
+                    title = result["title"]
+                    title = re.sub("\W+", " ", title)
+                    title = remove_non_ascii(title.title())
+                except:
+                    title = "Unsupported Title"
+                try:
+                    duration = result["duration"]
+                except:
+                    duration = "Unknown Mins"
+                thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+                try:
+                    views = result["viewCount"]["short"]
+                except:
+                    views = "Unknown Views"
+                try:
+                    channel = remove_non_ascii(result["channel"]["name"])
+                except:
+                    channel = "Unknown Channel"
 
-        youtube = Image.open(f"cache/thumb{videoid}.png")
-        image1 = changeImageSize(1280, 720, youtube)
-        image2 = image1.convert("RGBA")
-        background = image2.filter(filter=ImageFilter.BoxBlur(30))
-        enhancer = ImageEnhance.Brightness(background)
-        background = enhancer.enhance(0.6)
-        Xcenter = youtube.width / 2
-        Ycenter = youtube.height / 2
-        x1 = Xcenter - 250
-        y1 = Ycenter - 250
-        x2 = Xcenter + 250
-        y2 = Ycenter + 250
-        logo = youtube.crop((x1, y1, x2, y2))
-        logo.thumbnail((520, 520), Image.ANTIALIAS)
-                                                                                        
-        circle = Image.open("resources/images/circle.png")
+            async with aiohttp.ClientSession() as session:
+                async with session.get(thumbnail) as resp:
+                    if resp.status == 200:
+                        f = await aiofiles.open(
+                            f"temp_files/thumb{videoid}.jpg", mode="wb"
+                        )
+                        await f.write(await resp.read())
+                        await f.close()
 
-        image3 = image1.crop((280,0,1000,720))
-        lum_img = Image.new('L', [720,720] , 0)
-        draw = ImageDraw.Draw(lum_img)
-        draw.pieslice([(0,0), (720,720)], 0, 360, fill = 255, outline = "white")
-        img_arr = np.array(image3)
-        lum_img_arr = np.array(lum_img)
-        final_img_arr = np.dstack((img_arr,lum_img_arr))
-        image3 = Image.fromarray(final_img_arr)
-        image3 = image3.resize((600,600))
+            youtube = Image.open(f"temp_files/thumb{videoid}.jpg")
+            image1 = changeImageSize(1280, 720, youtube)
+            image2 = image1.convert("RGBA")
+            background = image2.filter(filter=ImageFilter.BoxBlur(30))
+            enhancer = ImageEnhance.Brightness(background)
+            background = enhancer.enhance(0.6)
+            image2 = background
+                                                                                            
+            circle = Image.open("resources/images/circle.png")
 
-        image2.paste(image3, (50,70), mask = image3)
-        image2.paste(circle, (0,0), mask = circle)
+            # changing circle color
+            im = circle
+            im = im.convert('RGBA')
+            color = make_col()
 
-        # fonts
-        font1 = ImageFont.truetype(r'resources/images/arial_bold.ttf', 30)
-        font2 = ImageFont.truetype(r'resources/images/arial_black.ttf', 60)
-        font3 = ImageFont.truetype(r'resources/images/arial_black.ttf', 40)
-        font4 = ImageFont.truetype(r'resources/images/arial_bold.ttf', 35)
+            data = np.array(im)
+            red, green, blue, alpha = data.T
 
-        image4 = ImageDraw.Draw(image2)
-        image4.text((10, 10), bot_name, fill="white", font = font1, align ="left") 
-        image4.text((670, 150), "NOW PLAYING", fill="white", font = font2, align ="left") 
+            white_areas = (red == 255) & (blue == 255) & (green == 255)
+            data[..., :-1][white_areas.T] = color
 
-        # title
-        title1 = truncate(title)
-        image4.text((670, 300), text=title1[0], fill="white", font = font3, align ="left") 
-        image4.text((670, 350), text=title1[1], fill="white", font = font3, align ="left") 
+            im2 = Image.fromarray(data)
+            circle = im2
+            # done
 
-        # description
-        views = f"Views : {views}"
-        duration = f"Duration : {duration} Mins"
-        channel = f"Channel : {channel}"
+            image3 = image1.crop((280,0,1000,720))
+            lum_img = Image.new('L', [720,720] , 0)
+            draw = ImageDraw.Draw(lum_img)
+            draw.pieslice([(0,0), (720,720)], 0, 360, fill = 255, outline = "white")
+            img_arr = np.array(image3)
+            lum_img_arr = np.array(lum_img)
+            final_img_arr = np.dstack((img_arr,lum_img_arr))
+            image3 = Image.fromarray(final_img_arr)
+            image3 = image3.resize((600,600))
+            
 
-        image4.text((670, 450), text=views, fill="white", font = font4, align ="left") 
-        image4.text((670, 500), text=duration, fill="white", font = font4, align ="left") 
-        image4.text((670, 550), text=channel, fill="white", font = font4, align ="left")
+            image2.paste(image3, (50,70), mask = image3)
+            image2.paste(circle, (0,0), mask = circle)
 
-        image2.save(f"cache/{videoid}.png")
-        file = f"cache/{videoid}.png"
-        telegraph_link = await telegraph_simple(file)
+            # fonts
+            font1 = ImageFont.truetype('resources/fonts/font.ttf', 30)
+            font2 = ImageFont.truetype('resources/fonts/font2.ttf', 70)
+            font3 = ImageFont.truetype('resources/fonts/font2.ttf', 40)
+            font4 = ImageFont.truetype('resources/fonts/font2.ttf', 35)
 
-        return telegraph_link
-    except Exception as e:
-        print(e)
-        return "https://telegra.ph/file/e17f42bc195635b668d6d.jpg"
+            image4 = ImageDraw.Draw(image2)
+            image4.text((10, 10), bot_name, fill="white", font = font1, align ="left") 
+            image4.text((670, 150), "NOW PLAYING", fill="white", font = font2, stroke_width=2, stroke_fill="white", align ="left") 
+
+            # title
+            title1 = truncate(title)
+            image4.text((670, 300), text=title1[0], fill="white", stroke_width=1, stroke_fill="white",font = font3, align ="left") 
+            image4.text((670, 350), text=title1[1], fill="white", stroke_width=1, stroke_fill="white", font = font3, align ="left") 
+
+            # description
+            views = f"Views : {views}"
+            duration = f"Duration : {duration} Mins"
+            channel = f"Channel : {channel}"
+
+            image4.text((670, 450), text=views, fill="white", font = font4, align ="left") 
+            image4.text((670, 500), text=duration, fill="white", font = font4, align ="left") 
+            image4.text((670, 550), text=channel, fill="white", font = font4, align ="left")
+            
+            image2 = ImageOps.expand(image2,border=20,fill=make_col())
+            image2 = image2.convert('RGB')
+            image2.save(f"temp_files/{videoid}.jpg")
+            file = f"temp_files/{videoid}.jpg"
+            telegraph_link = await telegraph_simple(file)
+
+            os.remove(file)
+
+            return telegraph_link
+    except:
+        return f"http://img.youtube.com/vi/{videoid}/maxresdefault.jpg"

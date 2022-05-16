@@ -19,10 +19,10 @@ async def get_image():
     except Exception as e:
         return "error " + str(e)
 
-def get_colours():
-    def make_col():
-        return (random.randint(0,255),random.randint(0,255),random.randint(0,255))    
+def make_col():
+    return (random.randint(0,255),random.randint(0,255),random.randint(0,255))
 
+def get_colours():
     font_color = make_col()
     stroke_color = make_col()
     border_color = make_col()
