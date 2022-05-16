@@ -1,6 +1,8 @@
 import asyncio
 import os
 from typing import Optional
+from utils import thumbnail
+from utils.thumbnail import gen_thumb
 from fastapi import FastAPI
 from utils import *
 from fastapi.responses import RedirectResponse, FileResponse
@@ -104,3 +106,13 @@ async def search_lyrics(query: str):
     data["query"] = query
     data["lyrics"] = lyrics
     return data
+
+@app.get("/thumb")
+async def generate_thumbnail(videoid: str, botname: Optional[str] = None):
+    "Generate thumbnail"
+
+    if not botname:
+      botname = "SiestaXMusic"
+    thumb = await gen_thumb(videoid,botname)
+
+    return RedirectResponse(thumb)

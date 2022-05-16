@@ -7,3 +7,5 @@ pillow
 telegraph
 wget
 lyricsgenius
+youtubesearchpython
+aiofiles
