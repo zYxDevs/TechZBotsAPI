@@ -56,6 +56,8 @@ async def get_nyaa_latest(max):
     x = [x.entries[0]]
   else:
     x = x.entries[:max]
+  rus = {}
+  rus['success'] = "True"
   res = []
   for x in x:
     dic = {}
@@ -74,4 +76,5 @@ async def get_nyaa_latest(max):
     dic['category'] = x['nyaa_category']
     dic['size'] = x['nyaa_size']
     res.append(dic)
-  return res
+  rus['results'] = res
+  return rus
