@@ -63,7 +63,11 @@ async def get_nyaa(code):
     x = await get_nyaa_info(code=code)
     return x
 
-
+@app.get("/nyaa/latest")
+async def nyaa_latest():
+    "Get Latest From Nyaa"
+    x = await get_nyaa_latest()
+    return x
 
 @app.get("/ud")
 async def get_ud(word: str, max: Optional[int] = None):
