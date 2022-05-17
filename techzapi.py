@@ -9,12 +9,12 @@ from fastapi.responses import RedirectResponse, FileResponse
 
 app = FastAPI()
 
-@app.get("/{query}")
-async def home(query):
-    return RedirectResponse(f"https://techzbots.tk/{query}") #{"status": "TechZBots - Api working fine..."}
+@app.get("/")
+async def home():
+    return {"status": "TechZBots - Api working fine..."}
 
 
-#@app.get("/wall")
+@app.get("/wall")
 async def get_wall(query: str):
     "Get direct links of wallpapers"
     data = await search_wall(query)
@@ -24,7 +24,7 @@ async def get_wall(query: str):
 
     return {"success": "True", "images": data}
 
-#@app.get("/unsplash")
+@app.get("/unsplash")
 async def get_unsplash(query: str):
     "Get direct links of images from unsplash"
     data = await search_unsplash(query)
@@ -34,7 +34,7 @@ async def get_unsplash(query: str):
 
     return {"success": "True", "images": data}
 
-#@app.get("/logo")
+@app.get("/logo")
 async def make_logo(text: str, square: Optional[bool] = None):
     "Generate a random logo"
     text = text.replace("%20"," ").replace("+"," ").replace("_"," ").upper().strip()
@@ -57,13 +57,13 @@ async def make_logo(text: str, square: Optional[bool] = None):
     return FileResponse(data)
 
 
-#@app.get("/nyaa")
+@app.get("/nyaa")
 async def get_nyaa(code):
     "Get info from nyaa using code"
     x = await get_nyaa_info(code=code)
     return x
 
-#@app.get("/latest")
+@app.get("/latest")
 async def nyaa_latest(max: Optional[int] = None):
     "Get Latest From Nyaa"
     if max:
@@ -72,7 +72,7 @@ async def nyaa_latest(max: Optional[int] = None):
         x = await get_nyaa_latest(0)
     return x
 
-#@app.get("/ud")
+@app.get("/ud")
 async def get_ud(word: str, max: Optional[int] = None):
     "Get meaning of a word from urban dictionary"
     x = await get_urbandict(word)
@@ -89,7 +89,7 @@ async def get_ud(word: str, max: Optional[int] = None):
     z['results'] = x
     return z
 
-#@app.get("/torrent")
+@app.get("/torrent")
 async def torrent(query: str, max: Optional[int] = None):
   "Get Torrent currently only yts supported"
   x = await yts(query)
@@ -104,7 +104,7 @@ async def torrent(query: str, max: Optional[int] = None):
 
   return res
 
-#@app.get("/lyrics")
+@app.get("/lyrics")
 async def search_lyrics(query: str):
     "Search lyrics"
     lyrics = await get_lyrics(query)
@@ -116,7 +116,7 @@ async def search_lyrics(query: str):
     data["lyrics"] = lyrics
     return data
 
-#@app.get("/thumb")
+@app.get("/thumb")
 async def generate_thumbnail(videoid: str, botname: Optional[str] = None):
     "Generate thumbnail"
 
