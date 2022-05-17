@@ -50,22 +50,28 @@ async def get_nyaa_info(code):
 
   
 
-async def get_nyaa_latest():
+async def get_nyaa_latest(max):
   x = feedparser.parse("https://nyaa.si/?page=rss")
-  x = x.entries[0]
-  dic = {}
-  code = str(x['link'])
-  code = code.split('/')[-1]
-  code = code.split('.')[0]
-  magnet = await get_nyaa_info(code)
-  magnet = magnet['magnet']
-  dic['success'] = true
-  dic['title'] = x['title']
-  dic['magnet'] = magnet
-  dic['seeders'] = x['nyaa_seeders']
-  dic['leechers'] = x['nyaa_leechers']
-  dic['downloads'] = x['nyaa_downloads']
-  dic['infohash'] = x['nyaa_infohash']
-  dic['category'] = x['nyaa_category']
-  dic['size'] = x['nyaa_size']
-  return dic
+  if max == 0:
+    x = [x.entries[0]]
+  else:
+    x = x.entries[:max]
+  res = []
+  for x in x:
+    dic = {}
+    code = str(x['link'])
+    code = code.replace(".torrent", "")
+    code = code.split('/')[-1]
+    magnet = await get_nyaa_info(code)
+    magnet = magnet['magnet']
+    dic['success'] = true
+    dic['title'] = x['title']
+    dic['magnet'] = magnet
+    dic['seeders'] = x['nyaa_seeders']
+    dic['leechers'] = x['nyaa_leechers']
+    dic['downloads'] = x['nyaa_downloads']
+    dic['infohash'] = x['nyaa_infohash']
+    dic['category'] = x['nyaa_category']
+    dic['size'] = x['nyaa_size']
+    res.append(dic)
+  return res
