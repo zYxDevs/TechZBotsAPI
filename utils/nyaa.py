@@ -1,4 +1,4 @@
-import requests, feedparser
+import requests, feedparser, aiohttp
 from bs4 import BeautifulSoup as bs
 
 
