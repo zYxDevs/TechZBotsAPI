@@ -69,7 +69,7 @@ async def nyaa_latest(max: int):
     if max:
         x = await get_nyaa_latest(max)
     else:
-       x = await get_nyaa_latest(0)
+        x = await get_nyaa_latest(0)
     return x
 
 @app.get("/ud")
