@@ -66,7 +66,10 @@ async def get_nyaa(code):
 @app.get("/latest")
 async def nyaa_latest(max: int):
     "Get Latest From Nyaa"
-    x = await get_nyaa_latest(max)
+    if max:
+        x = await get_nyaa_latest(max)
+    else:
+       x = await get_nyaa_latest(0)
     return x
 
 @app.get("/ud")
