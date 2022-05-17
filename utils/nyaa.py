@@ -2,7 +2,7 @@ import requests, feedparser
 from bs4 import BeautifulSoup as bs
 
 
-async def get_nya(code): 
+async def get_nyaa_info(code): 
   try:
     r = aiohttp.ClientSession()
     x = await r.get(f"https://nyaa.si/view/{code}")
@@ -57,7 +57,7 @@ async def get_nyaa_latest():
   code = str(x['link'])
   code = code.split('/')[-1]
   code = code.split('.')[0]
-  magnet = await get_nya(code)
+  magnet = await get_nyaa_info(code)
   magnet = magnet['magnet']
   dic['success'] = true
   dic['title'] = x['title']
@@ -69,16 +69,3 @@ async def get_nyaa_latest():
   dic['category'] = x['nyaa_category']
   dic['size'] = x['nyaa_size']
   return dic
-
-async def get_nyaa_info(code=None,latest=None):
-  if latest:
-    r = await get_nyaa_latest()
-  else:
-    if code:
-      r = await get_nya(code)
-    else:
-      r = {
-             "success": "False",
-             "message": "No Code Provided"
-      }
-  return r
