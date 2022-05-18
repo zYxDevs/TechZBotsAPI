@@ -75,9 +75,7 @@ async def yts(query):
            d.append(links.index(a))
          else:
            pass
-         d.pop(0)
-         for x in d:
-           links.pop(x)   
+         links.pop(d[0])   
     #closing aiohttp connection
 
     await requests.close()
