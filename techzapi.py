@@ -94,10 +94,19 @@ async def torrent(query: str, max: Optional[int] = None):
   "Get Torrent currently only yts supported"
   x = await yts(query)
   res = {}
+  links = []
   if x:
+    for f in x:
+      d = []
+      for a in x:
+        if a == f:
+          d.append(x.index(a))
+        else:
+          pass
+      links.append(d[0])  
     res['success'] = 'True'
     res['query'] = query
-    res['results'] = x
+    res['results'] = links
   else:
     res['success'] = 'False'
     res['error'] = 'Results Not Found'
