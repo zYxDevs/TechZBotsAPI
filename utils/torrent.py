@@ -72,10 +72,11 @@ async def yts(query):
       d = []
       for a in links:
         if a == x:
-          d.append(links.index(a))
+          d.append(a)
         else:
           pass
-      links.pop(d[0])  
+      for z in d[1:]:
+        links.remove(z)
     #closing aiohttp connection
 
     await requests.close()
