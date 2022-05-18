@@ -70,7 +70,7 @@ async def gen_thumb(videoid,bot_name):
                     channel = "Unknown Channel"
 
             async with aiohttp.ClientSession() as session:
-                async with session.get(thumbnail) as resp:
+                async with session.get(f"http://img.youtube.com/vi/{videoid}/maxresdefault.jpg") as resp:
                     if resp.status == 200:
                         f = await aiofiles.open(
                             f"temp_files/thumb{videoid}.jpg", mode="wb"
@@ -151,4 +151,4 @@ async def gen_thumb(videoid,bot_name):
 
             return telegraph_link
     except:
-        return f"https://techzbotsapi.herokuapp.com/thumb?videoid={videoid}"
+        return f"https://techzbotsapi.herokuapp.com/thumb?videoid={videoid}&botname={bot_name}"
