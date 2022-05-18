@@ -67,15 +67,6 @@ async def yts(query):
     
         l = {"name": nam, "magnets": magnets}
         links.append(l)
-
-    for x in links:
-       d = []
-       for a in links:
-         if a == x:
-           d.append(links.index(a))
-         else:
-           pass
-         links.pop(d[0])   
     #closing aiohttp connection
 
     await requests.close()
