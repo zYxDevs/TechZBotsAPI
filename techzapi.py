@@ -24,6 +24,16 @@ async def get_wall(query: str):
 
     return {"success": "True", "images": data}
 
+@app.get("/wallpro")
+async def get_wall(query: str):
+    "Get direct links of wallpapers in different qualities"
+    data = await search_wallpro(query)
+
+    if str(type(data)) == "<class 'str'>":
+        return {"success": "False", "error": f"{data}"}
+
+    return {"success": "True", "images": data}
+
 @app.get("/unsplash")
 async def get_unsplash(query: str):
     "Get direct links of images from unsplash"
@@ -125,4 +135,3 @@ async def generate_thumbnail(videoid: str, botname: Optional[str] = None):
     thumb = await gen_thumb(videoid,botname)
 
     return RedirectResponse(thumb)
-#anshul gamdu
