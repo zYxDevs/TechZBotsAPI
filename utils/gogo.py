@@ -23,19 +23,15 @@ from selenium.webdriver.chrome.options import Options as FirefoxOptions
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-CHROMEDRIVER_PATH = os.environ.get('CHROMEDRIVER_PATH', '/usr/local/bin/chromedriver')
-GOOGLE_CHROME_BIN = os.environ.get('GOOGLE_CHROME_BIN', '/usr/bin/google-chrome')
-
-options = FirefoxOptions()
-options.add_argument('--disable-gpu')
-options.add_argument('--no-sandbox')
-options.headless = True
-options.binary_location = GOOGLE_CHROME_BIN
-
+chrome_options = webdriver.ChromeOptions()
+chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--no-sandbox")
 
 def getDownloadPageHTML(url):
-    browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=options)
-        
+    browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
+
     try:
         timeout = 15
         browser.get(url)
