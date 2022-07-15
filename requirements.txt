@@ -11,3 +11,4 @@ youtube-search-python
 aiofiles
 numpy
 feedparser
+selenium
