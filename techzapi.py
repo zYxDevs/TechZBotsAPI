@@ -1,6 +1,7 @@
 import asyncio
 import os
 from typing import Optional
+from utils.gogo import gogo_scrapper
 from utils import thumbnail
 from utils.thumbnail import gen_thumb
 from fastapi import FastAPI
@@ -135,3 +136,11 @@ async def generate_thumbnail(videoid: str, botname: Optional[str] = None):
     thumb = await gen_thumb(videoid,botname)
 
     return RedirectResponse(thumb)
+
+@app.get("/gogo")
+async def get_gogo(url: str):
+    "GoGo"
+
+    x = gogo_scrapper(url)
+
+    return x
