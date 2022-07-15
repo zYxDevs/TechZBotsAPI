@@ -12,3 +12,5 @@ aiofiles
 numpy
 feedparser
 selenium
+motor
+dnspython
