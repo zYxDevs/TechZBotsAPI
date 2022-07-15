@@ -22,15 +22,16 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 firefox_options = FirefoxOptions()
 firefox_options.add_argument("--headless")
 firefox_options.add_argument("--private-window")
 
-browser = webdriver.Firefox(options = firefox_options)
-
-def getDownloadPageHTML(browser, url):
-    """Use selenium to render the download page. This will reveal the download links"""
+def getDownloadPageHTML(url):
+    binary = FirefoxBinary(os.environ.get('FIREFOX_BIN'))
+    browser = webdriver.Firefox(firefox_binary=binary,executable_path=os.environ.get('GECKODRIVER_PATH'),options=firefox_options)
+        
     try:
         timeout = 15
         browser.get(url)
@@ -39,12 +40,15 @@ def getDownloadPageHTML(browser, url):
                 (By.XPATH, "//body/section" + "/div" * 6 + "/a")
             )
         )
-        return 0,BeautifulSoup(browser.page_source, "html.parser")
+
+        x = BeautifulSoup(browser.page_source, "html.parser")
+        browser.quit()
+        return 0,x
     except TimeoutException as x:
         return 1,x
 
 def get_gogo(url):
-    x,soup = getDownloadPageHTML(browser,url)
+    x,soup = getDownloadPageHTML(url)
 
     if x == 1:
         return soup
