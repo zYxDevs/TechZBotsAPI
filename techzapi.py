@@ -151,11 +151,3 @@ async def generate_thumbnail(videoid: str, botname: Optional[str] = None):
     thumb = await gen_thumb(videoid,botname)
     await add_to_db(1)
     return RedirectResponse(thumb)
-
-@app.get("/gogo")
-async def get_gogo(url: str):
-    "GoGo"
-
-    x = gogo_scrapper(url)
-
-    return x
