@@ -19,18 +19,21 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.chrome.options import Options as FirefoxOptions
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+
+CHROMEDRIVER_PATH = os.environ.get('CHROMEDRIVER_PATH', '/usr/local/bin/chromedriver')
+GOOGLE_CHROME_BIN = os.environ.get('GOOGLE_CHROME_BIN', '/usr/bin/google-chrome')
 
 firefox_options = FirefoxOptions()
 firefox_options.add_argument("--headless")
 firefox_options.add_argument("--private-window")
+firefox_options.binary_location = GOOGLE_CHROME_BIN
+
 
 def getDownloadPageHTML(url):
-    binary = FirefoxBinary(os.environ.get('FIREFOX_BIN'))
-    browser = webdriver.Firefox(firefox_binary=binary,executable_path=os.environ.get('GECKODRIVER_PATH'),options=firefox_options)
+    browser = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=firefox_options)
         
     try:
         timeout = 15
