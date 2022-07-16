@@ -7,8 +7,7 @@
     ],
     "repository": "https://github.com/TechShreyash/TechZBotsAPI",
     "website": "https://t.me/TechZBots",
-    "success_url": "https://github.com/TechShreyash/TechZBotsAPI"
-    },
+    "success_url": "https://github.com/TechShreyash/TechZBotsAPI",
     "buildpacks": [
         { 
             "url": "heroku/python"
