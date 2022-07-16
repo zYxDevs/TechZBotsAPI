@@ -2,7 +2,6 @@ import asyncio
 import os
 from typing import Optional
 from utils.db import add_to_db
-from utils.gogo import gogo_scrapper
 from utils import thumbnail
 from utils.thumbnail import gen_thumb
 from fastapi import FastAPI
