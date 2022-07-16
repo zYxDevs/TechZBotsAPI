@@ -1,0 +1,23 @@
+{
+    "name": "TechZBots API",
+    "description": "TechZBots API",
+    "keywords": [
+        "techzbots",
+        "api"
+    ],
+    "repository": "https://github.com/TechShreyash/TechZBotsAPI",
+    "website": "https://t.me/TechZBots",
+    "success_url": "https://github.com/TechShreyash/TechZBotsAPI"
+    },
+    "buildpacks": [
+        { 
+            "url": "heroku/python"
+        }
+    ],
+    "formation": {
+        "worker": {
+            "quantity": 1,
+            "size": "free"
+        }
+    }
+}
