@@ -14,3 +14,4 @@ feedparser
 selenium
 motor
 dnspython
+cloudscraper
