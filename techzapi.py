@@ -86,11 +86,7 @@ async def get_nyaa(code):
 async def nyaa_latest(max: Optional[int] = None):
     "Get Latest From Nyaa"
     await add_to_db(3)
-    if max:
-        x = await get_nyaa_latest(max)
-    else:
-        x = await get_nyaa_latest(0)
-    return x
+    return await get_nyaa_latest(max) if max else await get_nyaa_latest(0)
 
 @app.get("/ud")
 async def get_ud(word: str, max: Optional[int] = None):
@@ -133,11 +129,8 @@ async def search_lyrics(query: str):
     lyrics = await get_lyrics(query)
     await add_to_db(3)
 
-    data = {}
+    data = {"success": 'True', "query": query, "lyrics": lyrics}
 
-    data["success"] = 'True'
-    data["query"] = query
-    data["lyrics"] = lyrics
     await add_to_db(3)
     return data
 
