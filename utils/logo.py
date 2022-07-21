@@ -17,7 +17,7 @@ async def get_image():
 
         return image_file
     except Exception as e:
-        return "error " + str(e)
+        return f"error {str(e)}"
 
 def make_col():
     return (random.randint(0,255),random.randint(0,255),random.randint(0,255))
@@ -36,18 +36,10 @@ def get_sizes(text, font, img, width_ratio):
 
     # border
     width, height = img.size
-    if width > height:    
-        brdor = round((2/100) * height)
-    else:
-        brdor = round((2/100) * width)
-
+    brdor = round((2/100) * height) if width > height else round((2/100) * width)
     # font size modify
     if font_size > width or font_size > height:
-        if width > height:
-            font_size = round(width/2)
-        else:
-            font_size = round(height/2)
-
+        font_size = round(width/2) if width > height else round(height/2)
     # stroke width 
     if font_size < 300:
         stroke_width = round((5/100) * font_size)
@@ -74,11 +66,11 @@ def find_font_size(text, font, image, target_width_ratio):
 
 async def generate_logo(text: str, square: Optional[str] = None):
     image_file = await get_image()
-    
+
     fpath = glob.glob("resources/fonts/*")
     font = random.choice(fpath)
-    
-    width_ratio = 0.7    
+
+    width_ratio = 0.7
     img = Image.open(image_file)  
 
     # if square = true then croping image as a square
@@ -101,11 +93,11 @@ async def generate_logo(text: str, square: Optional[str] = None):
         stroke_width=stroke_width,
         stroke_fill=stroke_color,
     )
-    
+
     # making border
     img = ImageOps.expand(img,border=brdor,fill=border_color)
     img = ImageOps.expand(img,border=brdor,fill=border_color2)
 
-    file_name = "temp_files/" + str(random.randint(11111111,99999999)) + ".jpg"
+    file_name = f"temp_files/{random.randint(11111111, 99999999)}.jpg"
     img.save(file_name)
     return file_name

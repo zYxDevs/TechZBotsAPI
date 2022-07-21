@@ -31,16 +31,12 @@ async def get_nyaa_info(code):
       try:
         if "Information" in t:
           inf.remove([t, y])
-        else:
-          pass
       except:
         pass
-    graph = {}
-    graph['success'] = "True"
-    graph['title'] = title
+    graph = {'success': "True", 'title': title}
     for a in inf:
       graph[f'{a[0]}'] = a[1]
-    graph['magnet'] = link 
+    graph['magnet'] = link
     return graph
   except Exception:
     return {
@@ -52,29 +48,24 @@ async def get_nyaa_info(code):
 
 async def get_nyaa_latest(max):
   x = feedparser.parse("https://nyaa.si/?page=rss")
-  if max == 0:
-    x = [x.entries[0]]
-  else:
-    x = x.entries[:max]
-  rus = {}
-  rus['success'] = "True"
+  x = [x.entries[0]] if max == 0 else x.entries[:max]
   res = []
   for x in x:
-    dic = {}
     code = str(x['link'])
     code = code.replace(".torrent", "")
     code = code.split('/')[-1]
     magnet = await get_nyaa_info(code)
     magnet = magnet['magnet']
-    dic['success'] = true
-    dic['title'] = x['title']
-    dic['magnet'] = magnet
-    dic['seeders'] = x['nyaa_seeders']
-    dic['leechers'] = x['nyaa_leechers']
-    dic['downloads'] = x['nyaa_downloads']
-    dic['infohash'] = x['nyaa_infohash']
-    dic['category'] = x['nyaa_category']
-    dic['size'] = x['nyaa_size']
+    dic = {
+        'success': true,
+        'title': x['title'],
+        'magnet': magnet,
+        'seeders': x['nyaa_seeders'],
+        'leechers': x['nyaa_leechers'],
+        'downloads': x['nyaa_downloads'],
+        'infohash': x['nyaa_infohash'],
+        'category': x['nyaa_category'],
+        'size': x['nyaa_size'],
+    }
     res.append(dic)
-  rus['results'] = res
-  return rus
+  return {'success': "True", 'results': res}

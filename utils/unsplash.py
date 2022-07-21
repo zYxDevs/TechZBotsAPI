@@ -5,7 +5,7 @@ import aiohttp
 async def search_unsplash(query):
     try:
         link = "https://unsplash.com/s/photos/" + query.replace(" ","-")    
-        
+
         async with aiohttp.ClientSession() as session:
             async with session.get(link) as resp:
                 soup =bs(await resp.text(),"html.parser")
@@ -20,4 +20,4 @@ async def search_unsplash(query):
         random.shuffle(images)
         return images
     except Exception as e:
-        return "error " + str(e)
+        return f"error {str(e)}"
